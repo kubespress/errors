@@ -28,7 +28,7 @@ var _ = Describe("Enrich", func() {
 			It("should return error with stack", func() {
 				Expect(err).To(HaveOccurred())
 				Expect(err).To(MatchError("test message 05"))
-				Expect(fmt.Sprintf("%+v", err)).To(HavePrefix("test message 05\ngithub.com/kubespress/errors_test.glob..func4.1.2.1\n\t/workspaces/errors/stack_test.go:"))
+				Expect(fmt.Sprintf("%+v", err)).To(MatchRegexp("^test message 05\ngithub\\.com/kubespress/errors_test\\.glob\\.\\.func.*\n\t/workspaces/errors/stack_test.go:.*"))
 				Expect(fmt.Sprintf("%v", err)).To(Equal("test message 05"))
 				Expect(fmt.Sprintf("%s", err)).To(Equal("test message 05"))
 				Expect(fmt.Sprintf("%q", err)).To(Equal(`"test message 05"`))

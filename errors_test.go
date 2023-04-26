@@ -44,7 +44,7 @@ func ExampleGet() {
 	}
 }
 
-func ExampleIs() {
+func ExampleCheck() {
 	// Tempoary indicates the error is tempoary
 	type Tempoary bool
 
@@ -52,7 +52,7 @@ func ExampleIs() {
 	err := functionReturningError()
 	if err != nil {
 		// If the error is tempoary then do nothing
-		if errors.Is[Tempoary](err) {
+		if errors.Check[Tempoary](err) {
 			return
 		}
 
@@ -149,10 +149,10 @@ var _ = Describe("Enrich", func() {
 			It("should be retrievable from the error", func() {
 				Expect(errors.Get[ContextString](err, "default value")).To(Equal(ContextString("additional context")))
 				Expect(errors.Get[ContextInt](err, 456)).To(Equal(ContextInt(123)))
-				Expect(errors.Is[ContextBool](err)).To(BeTrue())
+				Expect(errors.Check[ContextBool](err)).To(BeTrue())
 				Expect(errors.Get[UnsetContextString](err, "default value")).To(Equal(UnsetContextString("default value")))
 				Expect(errors.Get[UnsetContextInt](err, 456)).To(Equal(UnsetContextInt(456)))
-				Expect(errors.Is[UnsetContextBool](err)).To(BeFalse())
+				Expect(errors.Check[UnsetContextBool](err)).To(BeFalse())
 				Expect(fmt.Sprintf("%+v", err)).To(Equal("test message 03"))
 				Expect(fmt.Sprintf("%v", err)).To(Equal("test message 03"))
 				Expect(fmt.Sprintf("%s", err)).To(Equal("test message 03"))

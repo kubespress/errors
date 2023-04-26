@@ -9,6 +9,17 @@ import (
 	"fmt"
 )
 
+// As finds the first error in err's tree that matches target, and if one is found, sets
+// target to that error value and returns true. Otherwise, it returns false.
+func As(err error, target interface{}) bool {
+	return errors.As(err, target)
+}
+
+// Is reports whether any error in err's tree matches target.
+func Is(err error, target error) bool {
+	return errors.Is(err, target)
+}
+
 type errorString struct {
 	msg string
 }
@@ -84,8 +95,8 @@ func Set[T any](value T) Enricher {
 	}
 }
 
-// Is returns true if the error contains the specified context and it is true.
-func Is[T ~bool](err error) bool {
+// Check returns true if the error contains the specified context and it is true.
+func Check[T ~bool](err error) bool {
 	// Check if error has enrichment
 	var unwrapped enrichedError[T]
 	if errors.As(err, &unwrapped) {
