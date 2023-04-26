@@ -10,7 +10,7 @@ type errorAggregate struct {
 	errs []error
 }
 
-// ErrorList is a list of errors, it can be used as a utility to aggregat
+// ErrorList is a list of errors, it can be used as a utility to aggregate
 // errors by appending to the slice
 type ErrorList []error
 

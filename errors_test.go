@@ -45,14 +45,14 @@ func ExampleGet() {
 }
 
 func ExampleCheck() {
-	// Tempoary indicates the error is tempoary
-	type Tempoary bool
+	// Temporary indicates the error is Temporary
+	type Temporary bool
 
 	// Call function returning error
 	err := functionReturningError()
 	if err != nil {
-		// If the error is tempoary then do nothing
-		if errors.Check[Tempoary](err) {
+		// If the error is Temporary then do nothing
+		if errors.Check[Temporary](err) {
 			return
 		}
 
