@@ -163,7 +163,7 @@ var _ = Describe("Enrich", func() {
 		Context("when error is wrapped", func() {
 			BeforeEach(func() {
 				err = errors.Enrich(err,
-					errors.Wrap("message prefix"),
+					errors.Wrapf("message prefix"),
 				)
 			})
 

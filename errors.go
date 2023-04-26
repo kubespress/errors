@@ -153,3 +153,9 @@ func Wrap(msg string) Enricher {
 		}
 	}
 }
+
+// Wrapf returns an enricher that prefixes an error message with a provided
+// string for additional context
+func Wrapf(msg string, args ...interface{}) Enricher {
+	return Wrap(fmt.Sprintf(msg, args...))
+}
