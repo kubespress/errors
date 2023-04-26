@@ -92,7 +92,7 @@ This library allows the error to be enriched and for unwanted errors to be dropp
 
 ### Aggregating errors
 
-This allows multiple errors to be aggregated into a single error, while not breaking `errors.Is`, `errors.As`, ``errors.Check` and `errors.Get`, for example:
+This allows multiple errors to be aggregated into a single error, while not breaking `errors.Is`, `errors.As`, `errors.Check` and `errors.Get`, for example:
 
 ```go
 func Example(fns []func()error) error {

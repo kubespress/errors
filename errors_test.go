@@ -37,6 +37,7 @@ func ExampleSet() {
 
 	// Print the error
 	fmt.Println(errors.Get[UserFacingMessage](err, "Internal server error"))
+
 	// Output: Well this sucks.
 }
 
@@ -52,8 +53,9 @@ func ExampleGet() {
 
 		// Print the error message
 		fmt.Println(msg)
-		// Output: Internal server error
 	}
+
+	// Output: Internal server error
 }
 
 func ExampleCheck() {
