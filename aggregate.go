@@ -34,11 +34,26 @@ func (err ErrorList) Error() error {
 // Aggregate returns an error wrapping multiple other errors. If no other errors
 // are passed in this method returns nil.
 func Aggregate(errs ...error) error {
+	// Filter out nil errors
+	filtered := make([]error, 0, len(errs))
+	for _, err := range errs {
+		if err != nil {
+			filtered = append(filtered, err)
+		}
+	}
+
+	// Output depends on the number of errors
 	switch len(errs) {
+
+	// Zero errors means just return nil
 	case 0:
 		return nil
+
+	// One error means just return that error
 	case 1:
 		return errs[0]
+
+	// More than one error means we return an aggregate
 	default:
 		return errorAggregate{errs: errs}
 	}
