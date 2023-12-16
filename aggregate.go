@@ -43,7 +43,7 @@ func Aggregate(errs ...error) error {
 	}
 
 	// Output depends on the number of errors
-	switch len(errs) {
+	switch len(filtered) {
 
 	// Zero errors means just return nil
 	case 0:
@@ -51,11 +51,11 @@ func Aggregate(errs ...error) error {
 
 	// One error means just return that error
 	case 1:
-		return errs[0]
+		return filtered[0]
 
 	// More than one error means we return an aggregate
 	default:
-		return errorAggregate{errs: errs}
+		return errorAggregate{errs: filtered}
 	}
 }
 
