@@ -172,6 +172,19 @@ var _ = Describe("Enrich", func() {
 				Expect(fmt.Sprintf("%s", err)).To(Equal("test message 03"))
 				Expect(fmt.Sprintf("%q", err)).To(Equal(`"test message 03"`))
 			})
+
+			Context("when further context is added", func() {
+				BeforeEach(func() {
+					err = errors.Enrich(err,
+						errors.Set[ContextString]("further additional context"),
+					)
+				})
+
+				It("should be retrievable from the error", func() {
+					Expect(errors.Get[ContextString](err, "default value")).To(Equal(ContextString("further additional context")))
+					Expect(errors.All[ContextString](err)).To(Equal([]ContextString{"further additional context", "additional context"}))
+				})
+			})
 		})
 
 		Context("when error is wrapped", func() {

@@ -133,6 +133,25 @@ func Get[T any](err error, def T) T {
 	return def
 }
 
+// All returns the enriched context if it exists in the error. As opposed to Get
+// this function returns all the enriched values instead of stopping at the
+// first one.
+func All[T any](err error) (results []T) {
+	for err != nil {
+		// Check if error has enrichment
+		var unwrapped enrichedError[T]
+		if !errors.As(err, &unwrapped) {
+			return results
+		}
+
+		// Append the results
+		results = append(results, unwrapped.enrichment)
+		err = unwrapped.Unwrap()
+	}
+
+	return results
+}
+
 type wrappedError struct {
 	msg    string
 	nested error
@@ -170,4 +189,29 @@ func Wrap(msg string) Enricher {
 // string for additional context
 func Wrapf(msg string, args ...interface{}) Enricher {
 	return Wrap(fmt.Sprintf(msg, args...))
+}
+
+// Visit will unwrap the error recursively, calling the provided function for
+// each error.
+func Visit(err error, fn func(error) bool) {
+	visit(err, fn)
+}
+
+func visit(err error, fn func(error) bool) bool {
+	if !fn(err) {
+		return false
+	}
+
+	switch unwrapped := err.(type) {
+	case interface{ Unwrap() error }:
+		return visit(unwrapped.Unwrap(), fn)
+	case interface{ Unwrap() []error }:
+		for _, err := range unwrapped.Unwrap() {
+			if !visit(err, fn) {
+				return false
+			}
+		}
+	}
+
+	return true
 }
