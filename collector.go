@@ -25,12 +25,12 @@ func NewErrorCollector() *ErrorCollector {
 	return &ErrorCollector{}
 }
 
-// CollectError will append the error to the ErrorList if it is not nil, it is
-// designed to allow for a pattern where function call is passed right into
+// AppendErrorIfNotNil will append the error to the ErrorList if it is not nil,
+// it is designed to allow for a pattern where function call is passed right into
 // the method, for example:
 //
-// collection.CollectError(someFunctionThatMayError())
-func (e *ErrorCollector) CollectError(err error) {
+// collection.AppendErrorIfNotNil(someFunctionThatMayError())
+func (e *ErrorCollector) AppendErrorIfNotNil(err error) {
 	if err != nil {
 		e.ErrorList = append(e.ErrorList, err)
 	}
@@ -50,12 +50,12 @@ func ErrorCollectorForType[T any](collector *ErrorCollector) TypedErrorCollector
 	}
 }
 
-// CollectError will append the error to the ErrorList if it is not nil and
-// return the specified value. It is designed to allow for a pattern where
+// AppendErrorIfNotNil will append the error to the ErrorList if it is not nil
+// and return the specified value. It is designed to allow for a pattern where
 // function call is passed right into the method, for example:
 //
-// value := collection.CollectError(someFunctionThatMayError())
-func (e TypedErrorCollector[T]) CollectError(result T, err error) T {
-	e.collector.CollectError(err)
+// value := collection.AppendErrorIfNotNil(someFunctionThatMayError())
+func (e TypedErrorCollector[T]) AppendErrorIfNotNil(result T, err error) T {
+	e.collector.AppendErrorIfNotNil(err)
 	return result
 }
